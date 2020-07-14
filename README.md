@@ -15,7 +15,7 @@
 修改dataf.py 中training_data_path 为训练数据路径
 '''python train.py'''
 
-可视化实例
+## 可视化实例
 ### 例子🌰1
 ![raw](https://github.com/tommyMessi/tableImageParser_tx/blob/master/tx_infer_data/vanke_2016_1241_nb_3.jpg)
 ![nrow](https://github.com/tommyMessi/tableImageParser_tx/blob/master/tx_infer_data/nrow/vanke_2016_1241_nb_3.jpg)
