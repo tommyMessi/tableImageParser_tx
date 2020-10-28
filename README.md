@@ -29,7 +29,7 @@
 ## 更新 8.17
 - 修改dataf.py 中的数据预处理，具体效果 根据自己数据进行适量修改。（数据增强对效果还很重要）
 - 添加post.py 用于后处理的demo。具体思路通过霍夫变换的HoughLinesP函数的线段合集，进行直线断连接修复。
-- 预训练模型： 链接：https://pan.baidu.com/s/12oa1QcjaWiLb7Xsiz7aqbg  提取码：6Dw9 
+- 预训练模型： 链接: https://pan.baidu.com/s/1JXEKuWYtbyF6vFGQIzyE6g 提取码: 4mbb
 
 ## 其他
 训练数据与预训练模型 关注微信公众账号 hulugeAI 留言：table parser
