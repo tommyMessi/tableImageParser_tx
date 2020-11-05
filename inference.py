@@ -13,6 +13,13 @@ import random
 
 class Detector(object):
     def __init__(self,model_dir):
+        """
+        Init the optimizer.
+
+        Args:
+            self: (todo): write your description
+            model_dir: (str): write your description
+        """
         os.environ['CUDA_VISIBLE_DEVICES'] = '1'
         config = tf.ConfigProto(allow_soft_placement=True)
         config.gpu_options.per_process_gpu_memory_fraction = 1.0
@@ -31,6 +38,13 @@ class Detector(object):
 
 
     def main_detection(self, image):
+        """
+        Compute detect detection.
+
+        Args:
+            self: (todo): write your description
+            image: (array): write your description
+        """
         # img_e_c = image[:,:,::-1]
         img_e = np.expand_dims(image, axis=2)
         img_e_c = np.concatenate((img_e, img_e, img_e), axis=-1)
@@ -39,6 +53,12 @@ class Detector(object):
         return score_nrow[0], score_ncol[0], score_row[0], score_col[0] ,ratio_h, ratio_w
 
 def resize_image(im):
+    """
+    Resize an image
+
+    Args:
+        im: (array): write your description
+    """
     h, w, _ = im.shape
     size = (int(512), int(512))
     im = cv2.resize(im, size, interpolation=cv2.INTER_AREA)
@@ -50,6 +70,13 @@ def resize_image(im):
     return im, (ratio_h, ratio_w)
 
 def iou_count(list1, list2):
+    """
+    Return the number of the iouou_count.
+
+    Args:
+        list1: (list): write your description
+        list2: (list): write your description
+    """
     xx1 = np.maximum(list1[0], list2[0])
     yy1 = np.maximum(list1[1], list2[1])
     xx2 = np.minimum(list1[4], list2[4])

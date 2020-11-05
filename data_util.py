@@ -29,6 +29,16 @@ class GeneratorEnqueuer():
                  use_multiprocessing=False,
                  wait_time=0.05,
                  random_seed=None):
+        """
+        Initialize the generator.
+
+        Args:
+            self: (todo): write your description
+            generator: (todo): write your description
+            use_multiprocessing: (bool): write your description
+            wait_time: (int): write your description
+            random_seed: (int): write your description
+        """
         self.wait_time = wait_time
         self._generator = generator
         self._use_multiprocessing = use_multiprocessing
@@ -47,6 +57,11 @@ class GeneratorEnqueuer():
         """
 
         def data_generator_task():
+            """
+            Generator that yields a generator.
+
+            Args:
+            """
             while not self._stop_event.is_set():
                 try:
                     if self._use_multiprocessing or self.queue.qsize() < max_queue_size:
@@ -84,6 +99,12 @@ class GeneratorEnqueuer():
             raise
 
     def is_running(self):
+        """
+        Return true if the daemon is running.
+
+        Args:
+            self: (todo): write your description
+        """
         return self._stop_event is not None and not self._stop_event.is_set()
 
     def stop(self, timeout=None):

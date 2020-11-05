@@ -5,6 +5,12 @@ import os
 import math
 
 def line_row_gen(img_path):
+    """
+    Generate image row
+
+    Args:
+        img_path: (str): write your description
+    """
 
     img = cv2.imread( img_path )
     img_temp = np.ones_like(img) *255
@@ -34,6 +40,13 @@ def line_row_gen(img_path):
     return img_temp, 1
 
 def angle(v1, v2):
+    """
+    Returns the angle between two vectors.
+
+    Args:
+        v1: (todo): write your description
+        v2: (todo): write your description
+    """
   dx1 = v1[2] - v1[0]
   dy1 = v1[3] - v1[1]
   dx2 = v2[2] - v2[0]
@@ -51,6 +64,12 @@ def angle(v1, v2):
   return included_angle
 
 def line_col_gen(img_path):
+    """
+    Generate image colors
+
+    Args:
+        img_path: (str): write your description
+    """
     AB = [0,0,100,0]
 
     img = cv2.imread( img_path )
@@ -84,6 +103,15 @@ def line_col_gen(img_path):
     return img_temp, 1
 
 def tx_post(row_path, nrow_path, col_path, ncol_path):
+    """
+    Generate a row.
+
+    Args:
+        row_path: (str): write your description
+        nrow_path: (str): write your description
+        col_path: (str): write your description
+        ncol_path: (str): write your description
+    """
     row_image, is_row_exist = line_row_gen(row_path)
     nrow_image, is_nrow_exist = line_row_gen(nrow_path)
     col_image, is_col_exist = line_col_gen(col_path)
