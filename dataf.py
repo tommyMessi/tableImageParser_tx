@@ -19,6 +19,11 @@ FLAGS = tf.app.flags.FLAGS
 
 
 def get_images():
+    """
+    Returns a list of images.
+
+    Args:
+    """
     files = []
     for ext in ['jpg', 'png', 'jpeg', 'JPG']:
         files.extend(glob.glob(
@@ -54,6 +59,15 @@ def load_annoataion(p):
 
 
 def crop_area(im, label_im,crop_background=False, max_tries=150):
+    """
+    Crops an image to a specified size.
+
+    Args:
+        im: (int): write your description
+        label_im: (str): write your description
+        crop_background: (todo): write your description
+        max_tries: (int): write your description
+    """
     size = (int(512), int(512))
     im_p = cv2.resize(im, size, interpolation=cv2.INTER_AREA)
     la_p = cv2.resize(label_im, size, interpolation=cv2.INTER_AREA)
@@ -61,11 +75,26 @@ def crop_area(im, label_im,crop_background=False, max_tries=150):
 
 
 def point_dist_to_line(p1, p2, p3):
+    """
+    Calculate the distance between two points.
+
+    Args:
+        p1: (todo): write your description
+        p2: (todo): write your description
+        p3: (todo): write your description
+    """
     # compute the distance from p3 to p1-p2
     return np.linalg.norm(np.cross(p2 - p1, p1 - p3)) / np.linalg.norm(p2 - p1)
 
 
 def fit_line(p1, p2):
+    """
+    Fit line to line
+
+    Args:
+        p1: (array): write your description
+        p2: (array): write your description
+    """
     # fit a line ax+by+c = 0
     if p1[0] == p1[1]:
         return [1., 0., -p1[0]]
@@ -75,6 +104,13 @@ def fit_line(p1, p2):
 
 
 def line_cross_point(line1, line2):
+    """
+    Compute the line between two line points.
+
+    Args:
+        line1: (array): write your description
+        line2: (array): write your description
+    """
     # line1 0= ax+by+c, compute the cross point of line1 and line2
     if line1[0] != 0 and line1[0] == line2[0]:
         print('Cross point does not exist')
@@ -97,6 +133,13 @@ def line_cross_point(line1, line2):
 
 
 def line_verticle(line, point):
+    """
+    Adds a line to a vertical vertical circle.
+
+    Args:
+        line: (str): write your description
+        point: (int): write your description
+    """
     # get the verticle line from line across point
     if line[1] == 0:
         verticle = [0, -1, point[1]]
@@ -109,6 +152,13 @@ def line_verticle(line, point):
 
 
 def generator_label(label_im, label_str):
+    """
+    Generate label label from label_im.
+
+    Args:
+        label_im: (str): write your description
+        label_str: (str): write your description
+    """
     label_name = label_str.split('/')[-1]
     h, w = label_im.shape
     score_map = np.zeros((h, w), dtype=np.uint8)
@@ -125,6 +175,18 @@ def generator(input_size=512, batch_size=32,
               background_ratio=3./8,
               random_scale=np.array([0.5, 1, 2.0, 3.0]),
               vis=True):
+    """
+    Generate image generator.
+
+    Args:
+        input_size: (int): write your description
+        batch_size: (int): write your description
+        background_ratio: (todo): write your description
+        random_scale: (int): write your description
+        np: (todo): write your description
+        array: (array): write your description
+        vis: (todo): write your description
+    """
     image_list = np.array(get_images())
     print('{} training images in {}'.format(
         image_list.shape[0], FLAGS.training_data_path))
@@ -224,6 +286,12 @@ def generator(input_size=512, batch_size=32,
 
 
 def get_batch(num_workers, **kwargs):
+    """
+    Iterate batches of the given number of workers.
+
+    Args:
+        num_workers: (int): write your description
+    """
     try:
         enqueuer = GeneratorEnqueuer(generator(**kwargs), use_multiprocessing=True)
         print('Generator use 10 batches for buffering, this may take a while, you can tune this yourself.')

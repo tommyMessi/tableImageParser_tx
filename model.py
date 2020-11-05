@@ -11,6 +11,12 @@ FLAGS = tf.app.flags.FLAGS
 
 
 def unpool(inputs):
+    """
+    Unpool a list.
+
+    Args:
+        inputs: (array): write your description
+    """
     return tf.image.resize_bilinear(inputs, size=[tf.shape(inputs)[1]*2,  tf.shape(inputs)[2]*2])
 
 

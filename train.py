@@ -27,6 +27,18 @@ gpus = list(range(len(FLAGS.gpu_list.split(','))))
 
 def tower_loss(images, score_maps_nrow, score_maps_ncol, score_maps_row,
                score_maps_col, training_masks, reuse_variables=None):
+    """
+    Tower loss.
+
+    Args:
+        images: (array): write your description
+        score_maps_nrow: (bool): write your description
+        score_maps_ncol: (bool): write your description
+        score_maps_row: (bool): write your description
+        score_maps_col: (bool): write your description
+        training_masks: (todo): write your description
+        reuse_variables: (bool): write your description
+    """
     # Build inference graph
     with tf.variable_scope(tf.get_variable_scope(), reuse=reuse_variables):
         f_score_nrow, f_score_ncol, \
@@ -62,6 +74,12 @@ def tower_loss(images, score_maps_nrow, score_maps_ncol, score_maps_row,
 
 
 def average_gradients(tower_grads):
+    """
+    Compute the average gradients.
+
+    Args:
+        tower_grads: (todo): write your description
+    """
     average_grads = []
     for grad_and_vars in zip(*tower_grads):
         grads = []
@@ -80,6 +98,12 @@ def average_gradients(tower_grads):
 
 
 def main(argv=None):
+    """
+    Main function.
+
+    Args:
+        argv: (str): write your description
+    """
     import os
     os.environ['CUDA_VISIBLE_DEVICES'] = FLAGS.gpu_list
     if not tf.gfile.Exists(FLAGS.checkpoint_path):
