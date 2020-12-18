@@ -5,10 +5,12 @@ import tensorflow as tf
 import logging
 log = logging.getLogger(__name__)
 
-import model
+# import model
+import model as model_tx
 import time
 
 import os
+import argparse
 import random
 
 class Detector(object):
@@ -66,22 +68,40 @@ def iou_count(list1, list2):
     iou = inter / min(area1, area2)
     return iou
 
-if __name__ == '__main__':
 
-    result_path = './result/'
-    instance = Detector('./model/')
-    images = os.listdir('./image/')
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--model_dir', default='./model')
+    parser.add_argument('--img_dir', default='./tx_infer_data')
+    parser.add_argument('--out_dir', default='./result')
+    return parser.parse_args()
 
-    row_root = './tx_infer_data/row'
-    col_root = './tx_infer_data/col'
-    nrow_root = './tx_infer_data/nrow'
-    ncol_root = './tx_infer_data/ncol'
 
+def main(args):
+    # result_path = './result/'
+    if not os.path.isdir(args.out_dir):
+        os.makedirs(args.out_dir)
+        os.makedirs(os.path.join(args.out_dir, 'row'))
+        os.makedirs(os.path.join(args.out_dir, 'col'))
+        os.makedirs(os.path.join(args.out_dir, 'nrow'))
+        os.makedirs(os.path.join(args.out_dir, 'ncol'))
+
+    instance = Detector(args.model_dir)
+    images = os.listdir(args.img_dir)
+
+    # row_root = './tx_infer_data/row'
+    # col_root = './tx_infer_data/col'
+    # nrow_root = './tx_infer_data/nrow'
+    # ncol_root = './tx_infer_data/ncol'
+    row_root = os.path.join(args.out_dir, 'row')
+    col_root = os.path.join(args.out_dir, 'col')
+    nrow_root = os.path.join(args.out_dir, 'nrow')
+    ncol_root = os.path.join(args.out_dir, 'ncol')
 
     i_l = []
     for x in range(len(images)):
         print(images[x])
-        image_path = os.path.join('./image/',images[x])
+        image_path = os.path.join(args.img_dir, images[x])
         image_name = images[x]
         txt_name = image_name.replace('.jpg','.txt')
         row_path = os.path.join(row_root, image_name)
@@ -111,7 +131,7 @@ if __name__ == '__main__':
         lmap = cv2.bitwise_and(score_row, score_col)
         pre_map = cv2.bitwise_and(nmap, lmap)
 
-        result = os.path.join(result_path, images[x])
+        result = os.path.join(args.out_dir, images[x])
         score_nrow_map = cv2.resize(score_nrow, dsize=None, fx=1/ratio_w, fy=1/ratio_h, interpolation=cv2.INTER_AREA)
         score_ncol_map = cv2.resize(score_ncol, dsize=None, fx=1 / ratio_w, fy=1 / ratio_h, interpolation=cv2.INTER_AREA)
         score_row_map = cv2.resize(score_row, dsize=None, fx=1 / ratio_w, fy=1 / ratio_h, interpolation=cv2.INTER_AREA)
@@ -124,3 +144,9 @@ if __name__ == '__main__':
         cv2.imwrite(nrow_path, score_nrow_map * 255)
         cv2.imwrite(ncol_path, score_ncol_map * 255)
         cv2.imwrite(result, pre_map*255)
+
+
+if __name__ == '__main__':
+    main(get_args())
+
+
